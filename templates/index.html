@@ -9,21 +9,20 @@
     <title>Apophis Calculations</title>
 </head>
 <body>
-    <div class="col-md-3">
-        <h1>Apophis Calculations</h1>
-        <form action="/observatories_info">
-            <label for="obs1">First Observatory:</label>
-            <select id="obs1" name="id1" names="{{names}}"></select>
-            <p></p>
-            <label for="obs2">Second Observatory:</label>
-            <select id="obs2" name="id2" names="{{names}}"></select>
-            <p></p>
-            <button>Get Observatory Info</button>
-        </form>
-        <p><form action="/ephemeris_data">
-            <button>Get Ephemeris Info</button>
-        </form></p>
+    <div class="text-center">
+        <div class="col-md-3">
+            <h1>Apophis Calculations</h1>
+                <label for="obs1">First Observatory:</label>
+                <select id="obs1" name="id1" names="{{names}}"></select>
+                <p></p>
+                <label for="obs2">Second Observatory:</label>
+                <select id="obs2" name="id2" names="{{names}}"></select>
+                <p></p>
+                <div><button onclick="obsInfo()">Get Observatory Info</button></div>
+                <div><button onclick="ephemInfo()">Get Ephemeris Info</button></div>
+        </div>
     </div>
+
 
     <script>
         let elements = document.querySelector("#obs1").getAttribute("names").split(",");
@@ -42,6 +41,22 @@
                 sel.appendChild(option);
             }
             i++
+        }
+
+        async function obsInfo(){
+            let id1 = document.querySelector("#obs1").value;
+            let id2 = document.querySelector("#obs2").value;
+            let response = await fetch("http://127.0.0.1:8000/observatories_info?id1="+id1+"&id2="+id2+"&remarks=false");
+            let obj = await response.json()
+            console.log(obj)
+        }
+
+        async function ephemInfo(){
+            let id1 = document.querySelector("#obs1").value;
+            let id2 = document.querySelector("#obs2").value;
+            let response = await fetch("http://127.0.0.1:8000/ephemeris_info?id1="+id1+"&id2="+id2);
+            let obj = await response.json()
+            console.log(obj)
         }
     </script>
 </body>
