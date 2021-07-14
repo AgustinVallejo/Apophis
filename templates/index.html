@@ -1,0 +1,44 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css" type="text/css">
+    <title>Apophis Calculations</title>
+</head>
+<body>
+    <h1>Apophis Calculations</h1>
+    <form action="/observatories_info">
+        <label for="obs1">First Observatory:</label>
+        <select id="obs1" name="id1" names="{{names}}"></select>
+        <p></p>
+        <label for="obs2">Second Observatory:</label>
+        <select id="obs2" name="id2" names="{{names}}"></select>
+        <p></p>
+        <button>Get Observatory Info</button>
+    </form>
+    <p><form action="/ephemeris_data">
+        <button>Get Ephemeris Info</button>
+    </form></p>
+
+    <script>
+        let elements = document.querySelector("#obs1").getAttribute("names").split(",");
+        let select1 = document.querySelector("#obs1");
+        let select2 = document.querySelector("#obs2");
+        let i = 0;
+
+        for (let elt of elements){
+            elt = elt.replace("[","")
+            elt = elt.replace("]","")
+            elt = elt.replaceAll("'","")
+            for (let sel of [select1,select2]){
+                let option = document.createElement("option");
+                option.text = elt;
+                option.value = i;
+                sel.appendChild(option);
+            }
+            i++
+        }
+    </script>
+</body>
+</html>
