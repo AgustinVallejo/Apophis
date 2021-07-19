@@ -8,7 +8,7 @@ Original file is located at
 """
 
 import numpy as np
-import pylab as plt
+# import pylab as plt
 import pandas as pd
 
 "ASTROPY"
