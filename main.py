@@ -1,28 +1,38 @@
 from fastapi import FastAPI, Query, Request
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+# from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
 import uvicorn
 import utils
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
+
+# templates = Jinja2Templates(directory="templates")
 
 # Loading the Excel data
-ephemeris = pd.read_excel("ephemeris.xlsx")
-radiotelescopes = pd.read_excel("AllRadiotelescopes.xlsx",sheet_name="AA")
+ephemeris = pd.read_excel("ephemeris.xlsx").fillna('')
+radiotelescopes = pd.read_excel("AllRadiotelescopes.xlsx",sheet_name="AA").fillna('')
 names = list(radiotelescopes['Name'])
 
 @app.get("/")
-async def main(request: Request):
-    return templates.TemplateResponse("index.html",{"request":request, "names":names})
+async def main():
+    # request: Request):
+    # return templates.TemplateResponse("index.html",{"request":request})
+    pass
 
-# @app.get("/observatories",response_class=HTMLResponse)
-# async def select_obs(
-#     request: Request,
-#     name1: str = Query(names[0],enum=names),
-#     name2: str = Query(names[1],enum=names)):
-#     return templates.TemplateResponse("index.html",{"request":request, "obs1":name1, "obs2":name2})
+
+@app.get("/observatories")
+async def observatories_list():
+    return names
 
 @app.get("/observatories_info")
 async def print_obs_info(

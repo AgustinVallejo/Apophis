@@ -179,11 +179,11 @@ def compareSign(prevElevs, actualElevs, time, obsNames, obj):
         if prevElev is not None:
             if sign(prevElev) != sign(actualElev):
                 if sign(actualElev) == 1:
-                    obj[i]['RISE'].append(time)
-                    print("  Rising at ",obs,time)
+                    obj[i]['Rise'].append(time)
+                    # print("  Rising at ",obs,time)
                 else:
-                    obj[i]['SET'].append(time)
-                    print("  Setting at ",obs,time)
+                    obj[i]['Set'].append(time)
+                    # print("  Setting at ",obs,time)
     return obj
 
 def table2(obs1, obs2, ephemeris):
@@ -196,8 +196,8 @@ def table2(obs1, obs2, ephemeris):
     obj = {}
 
     # Print the observatories information
-    obj[0] = {"NAME":obs1['Name'],"RISE":[],"SET":[]}
-    obj[1] = {"NAME":obs2['Name'],"RISE":[],"SET":[]}
+    obj[0] = {"Name":obs1['Name'],"Rise":[],"Set":[]}
+    obj[1] = {"Name":obs2['Name'],"Rise":[],"Set":[]}
     obsNames = (obs1['Name'],obs2['Name'])
 
     # Set the elevations and times tuples
@@ -228,12 +228,12 @@ def table2(obs1, obs2, ephemeris):
                 maxTimes[i] = time
         prevElevs = elevs
 
-    print("MAX ELEVATIONS:")
+    # print("Max Elevations:")
     for i in range(2):
-        if len(obj[i]['RISE']) == 1:
-            obj[i]['RISE'] = obj[i]['RISE'][0]
-        if len(obj[i]['SET']) == 1:
-            obj[i]['SET'] = obj[i]['SET'][0]
-        obj[i]["MAX ELEVATION"] = {"ELEVATION":f"{round(maxElevs[i],2)} deg", "TIME":maxTimes[i]}
+        if len(obj[i]['Rise']) == 1:
+            obj[i]['Rise'] = obj[i]['Rise'][0]
+        if len(obj[i]['Set']) == 1:
+            obj[i]['Set'] = obj[i]['Set'][0]
+        obj[i]["Max Elevation"] = {"Elevation":f"{round(maxElevs[i],2)} deg", "Time":maxTimes[i]}
     
     return obj
