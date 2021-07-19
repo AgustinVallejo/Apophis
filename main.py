@@ -19,9 +19,9 @@ app.add_middleware(
 # templates = Jinja2Templates(directory="templates")
 
 # Loading the Excel data
-ephemeris = pd.read_excel("ephemeris.xlsx").fillna('')
-radiotelescopes = pd.read_excel("AllRadiotelescopes.xlsx",sheet_name="AA").fillna('')
-names = list(radiotelescopes['Name'])
+ephemeris = pd.read_csv("ephemeris.csv").fillna('')
+radiotelescopes = pd.read_csv("AllRadiotelescopes.csv").fillna('')
+names = [x for x in (radiotelescopes['Name']) if x]
 
 @app.get("/")
 async def main():
